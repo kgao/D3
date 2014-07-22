@@ -1,6 +1,11 @@
 D3.js
 =====
-Demo covered:
+/index
+Chat Room
+
+
+/report/index
+D3 Demo covered:
 
     Fundamentals
     Setup

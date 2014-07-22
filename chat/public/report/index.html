@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>D3 Test</title>
+        <script type="text/javascript" src="d3/d3.v3.js"></script>
+        <style type="text/css">
+        div.bar {
+            display: inline-block;
+            width: 20px;
+            height: 75px;   /* We'll override this later */
+            background-color: teal;
+            margin-right: 2px; 
+        }
+        </style>
+    </head>
+    <body>
+        <!-- Drawing data -->
+       <!--  
+       <div class="bar"></div>
+
+        <div style="display: inline-block; width: 20px; height: 75px; background-color: teal;"></div>
+        -->
+        <script type="text/javascript">
+           // Your beautiful D3 code will go here
+            
+          //channing methods
+         d3.select("body").append("b").text("Kev Data Visualization Test!");
+          
+         var dataset = [ 5, 25, 50, 75, 100 ];
+
+          d3.select("body").selectAll("p")
+                .data(dataset)
+                .enter()
+                .append("p")
+                .text(function(d) { return  "Data loading up to " + d +"%";})
+                .style("color", function(d) {
+                    if (d%2== 0) {   //Threshold of 15
+                        return "red";
+                    } else {
+                        return "black";
+                    }
+                });
+         //Binding data
+         // var matrix = [
+         //    [11975,  5871, 8916, 2868],
+         //    [ 1951, 10048, 2060, 6171],
+         //    [ 8010, 16145, 8090, 8045],
+         //    [ 1013,   990,  940, 6907]
+         //  ];
+
+         //  var tr = d3.select("body").append("table").selectAll("tr")
+         //      .data(matrix)
+         //    .enter().append("tr");
+
+         //  var td = tr.selectAll("td")
+         //      .data(function(d) { return d; })
+         //    .enter().append("td")
+         //      .text(function(d) { return d; });
+
+        </script>
+        <div id="view"><p>NYM Users</p></div>
+
+        <div id="view1"><p>NYM Content</p></div>
+
+        <div id="view2"><p>Ominature Page Views</p></div>
+
+        <script type="text/javascript">
+            //Drawing data
+             
+              d3.select("#view").selectAll("div")
+              .data(dataset)
+              .enter()
+              .append("div")
+              .attr("class", "bar")
+              .style("height", function(d) {
+               var barHeight = d * 5;  //Scale up by factor of 5
+              return barHeight + "px";
+          });
+
+
+              var dataset1 = [ 25, 7, 5, 26, 11 ];
+              d3.select("#view1").selectAll("div")
+              .data(dataset1)
+              .enter()
+              .append("div")
+              .attr("class", "bar")
+              .style("height", function(d) {
+
+               var barHeight = d * 5;  //Scale up by factor of 5
+              return barHeight + "px";
+          });
+
+              var dataset2 = [ 25, 7, 5, 26, 11, 8, 25, 14, 23, 19,
+                14, 11, 22, 29, 11, 13, 12, 17, 18, 10,
+                24, 18, 25, 9, 3 ];
+
+              var data = [0,0,1931,1901,852214,3069942,1145284,2829950,68,2570,403,1099,944918,3110455,370969,887516];
+              d3.select("#view2").selectAll("div")
+                .data(data)  // <-- The answer is here!
+                .enter()
+                .append("div")
+                .attr("class", "bar")
+                .style("height", function(d) {
+                    var barHeight = (d/10000) * 1;
+                    return barHeight + "px";
+                });
+
+        </script>
+        <div id="view_last"><p>Ominature: Vulture | Krang | Grubstreet | Daily Intel | The Cut</p></div>
+
+    </body>
+</html>     
