@@ -12,7 +12,7 @@ function send404(response) {
 
 function sendFile(response, filePath, fileContents) {
   response.writeHead(
-    200, 
+    200,
     {"content-type": mime.lookup(path.basename(filePath))}
   );
   response.end(fileContents);
@@ -46,6 +46,8 @@ var server = http.createServer(function(request, response) {
     filePath = 'public/index.html';
   } else if(request.url == '/report/'){
     filePath = 'public/report/index.html';
+  }else if(request.url == '/poker/'){
+    filePath = 'public/poker/html/poker.html';
   }else {
     filePath = 'public' + request.url;
   }
@@ -54,8 +56,8 @@ var server = http.createServer(function(request, response) {
   serveStatic(response, cache, absPath);
 });
 
-server.listen(3000, function() {
-  console.log("Server listening on port 3000.");
+server.listen(3333, function() {
+  console.log("Server listening on port 3333.");
 });
 
 var chatServer = require('./lib/chat_server');

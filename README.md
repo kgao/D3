@@ -1,18 +1,20 @@
-D3.js
+D3
 =====
-/index
+/index TODO welcome page.
+D3 demo 
 Chat Room
+Poker Room
 
+#D3 data visualization /report/index
 
-/report/index
-D3 Demo covered:
+##Demo covered:
 
     Fundamentals
     Setup
     Adding elements
     Chaining methods
     Binding data
-    Using your data 
+    Using your data
     Drawing divs
     The power of data()
     An SVG primer
@@ -24,6 +26,16 @@ D3 Demo covered:
     Axes
     Transitions
 
-
 Ref:
 http://alignedleft.com/tutorials/d3
+
+#Get Start
+cd D3/fun
+
+npm install
+
+node server.js
+
+info  - socket.io started
+
+Server listening on port 3333.
