@@ -40,4 +40,4 @@ info  - socket.io started
 
 Server listening on port 3333.
 
-(Mac user plz use ifconfig to find ur local ip to share with local network, i.e. http://10.176.200.118:3333/play )
+(Mac user plz use ifconfig to find ur local ip address to share in local network - http://{yourlocalhost}:3333/play )
