@@ -110,3 +110,15 @@ function handleClientDisconnection(socket) {
     delete nickNames[socket.id];
   });
 }
+
+function handleMessageBroadcasting(socket) {
+  socket.on('poker', function (buyin) {
+    // TODO: buyin validation
+    socket.emit('pokerResult', {
+      success: true,
+      id: socket.id,
+      name: nickNames[socket.id],
+      buyin: buyin
+    });
+  });
+}

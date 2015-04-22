@@ -1,7 +1,7 @@
 D3
 =====
 /index TODO welcome page.
-D3 demo 
+D3 demo
 Chat Room
 Poker Room
 
@@ -39,3 +39,5 @@ node server.js
 info  - socket.io started
 
 Server listening on port 3333.
+
+(Mac user plz use ifconfig to find ur local ip to share with local network, i.e. http://10.176.200.118:3333/play )
