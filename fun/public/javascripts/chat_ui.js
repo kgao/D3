@@ -109,6 +109,30 @@ $(document).ready(function() {
     $('#messages').append(divSystemContentElement(message));
   });
 
+  socket.on('pokerSelfBet', function (result) {
+    var message;
+
+    if (result.success) {
+      message = result.text;
+    } else {
+      message = 'Fail to get self bet.';
+    }
+    $('#messages').append(divSystemContentElement(message));
+  });
+
+
+  socket.on('pokerBet', function (result) {
+    var message;
+
+    if (result.success) {
+      message = result.text;
+    } else {
+      message = 'Fail to get player bet.';
+    }
+    $('#messages').append(divSystemContentElement(message));
+  });
+
+
   socket.on('rooms', function(rooms) {
     $('#room-list').empty();
 

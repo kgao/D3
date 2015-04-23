@@ -4,6 +4,7 @@ var guestNumber = 1;
 var nickNames = {};
 var namesUsed = [];
 var currentRoom = {};
+var chips = {};
 
 exports.listen = function(server) {
   io = socketio.listen(server);
@@ -15,6 +16,7 @@ exports.listen = function(server) {
     handleNameChangeAttempts(socket, nickNames, namesUsed);
     handleRoomJoining(socket);
     handlePokerRoom(socket);
+    handlePokerHand(socket);
     socket.on('rooms', function() {
       socket.emit('rooms', io.sockets.manager.rooms);
     });
@@ -115,8 +117,11 @@ function handleClientDisconnection(socket) {
 }
 
 function handlePokerRoom(socket) {
+
   socket.on('poker', function (buyin) {
     // TODO: buyin validation
+    chips[nickNames[socket.id]] = buyin; //init chips
+
     socket.emit('pokerHand', {
       success: true,
       id: socket.id,
@@ -128,6 +133,42 @@ function handlePokerRoom(socket) {
       success: true,
       text: 'Player '+ nickNames[socket.id] +' is now in game with $' + buyin + ' buy-in.'
     });
+  });
+}
+
+function handlePokerHand(socket) {
+  socket.on('bet', function (amount) {
+    // TODO: bet validation
+    if(chips[nickNames[socket.id]] > amount){
+      chips[nickNames[socket.id]] = chips[nickNames[socket.id]] - amount; //udpate chips
+      socket.emit('pokerSelfBet', {
+        success: true,
+        id: socket.id,
+        name: nickNames[socket.id],
+        text: 'You bet $' + amount +'.($'+ chips[nickNames[socket.id]] +' left)' //TODO global result
+      });
+
+      socket.broadcast.to(currentRoom[socket.id]).emit('pokerBet', {
+        success: true,
+        text: nickNames[socket.id] +' bet $' + amount + '.($'+ chips[nickNames[socket.id]] +' left)'
+      });
+    }else{
+      //fail to bet
+      chips[nickNames[socket.id]] = chips[nickNames[socket.id]] - amount; //udpate chips
+      socket.emit('pokerSelfBet', {
+        success: true,
+        id: socket.id,
+        name: nickNames[socket.id],
+        text: 'You fail to bet $' + amount +'.($'+ chips[nickNames[socket.id]] +' left)'
+      });
+
+      socket.broadcast.to(currentRoom[socket.id]).emit('pokerBet', {
+        success: true,
+        text: nickNames[socket.id] +' fail to bet $' + amount + '.($'+ chips[nickNames[socket.id]] +' left)'
+      });
+    }
+
+
 
   });
 }

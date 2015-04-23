@@ -34,6 +34,9 @@ Chat.prototype.processCommand = function(command) {
     case 'poker':
       this.socket.emit('poker', msg);
       break;
+    case 'bet':
+      this.socket.emit('bet', msg);
+      break;
     case 'message':
       var room = msg.split(':')[0];
       var message = msg.split(':')[1];
