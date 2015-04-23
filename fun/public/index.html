@@ -2,7 +2,7 @@
 <html html xmlns="http://www.w3.org/1999/xhtml" lang='en'>
 
 <head>
-  <title>Chat</title>
+  <title>Room</title>
   <link rel='stylesheet' href='/stylesheets/style.css'></link>
 
   <!--Poker Style-->
@@ -65,12 +65,50 @@
 </head>
 
 <body>
-<div id='poker-top'><div class="container">
+
+<script src='/socket.io/socket.io.js' type='text/javascript'></script>
+<script src='http://code.jquery.com/jquery-1.8.0.min.js' type='text/javascript'></script>
+<script src='/javascripts/jquery.base64.min.js' type='text/javascript'></script>
+<script src='/javascripts/chat.js' type='text/javascript'></script>
+<script src='/javascripts/chat_ui.js' type='text/javascript'></script>
+<script src='/poker/js/poker.min.js' type='text/javascript'></script>
+
+<script>
+//GET html AUTOMATICALLY from A server TODO: replace ambrose.
+// function refresh() {
+//   $.ajax({
+//       type : 'GET',
+//       url : 'http://ambrose.qa.nymetro.com:80/v1/content/components/d3-test-data?origin-app=person',
+//       dataType : 'json',
+//        success : function(result){
+//          alert('Get deck data ===' + result.data);
+//          $("#poker-top").html(result.data);
+//          alert('Update deck info!');
+//        },
+//        error : function(xhr, textStatus, err) {
+//         console.debug(err);
+//        },
+//        beforeSend : function(xhr, option) {
+//          xhr.requestUrl = option.url;
+//          xhr.setRequestHeader('Accept', "application/json; charset=utf-8");
+//        }
+//     });
+// }
+//
+// setTimeout(refresh, 1000);
+
+</script>
+
+<div id='poker-top'>
+
+  <div class="container">
   <div class="title">
     Deck container, click title to toggle expand or collapse, click card to add random rotate css. IE does not support. Welcome to nym dev poker channel!
   </div>
   <div class="content" id="domContainer"></div>
-</div></div>
+  </div>
+
+</div>
 
 <div id='content'>
   <div id='room'></div>
@@ -86,27 +124,23 @@
       <ul>
         <li>Change nickname: <code>/nick [username]</code></li>
         <li>Join/create room: <code>/join [room name]</code></li>
+        <li>Message to room: <code>/message [room name] : [message text]</code></li>
         <li>Start poker game: <code>/poker [buy-in]</code></li>
       </ul>
     </div>
   </form>
 </div>
 
-<script src='/socket.io/socket.io.js' type='text/javascript'></script>
-<script src='http://code.jquery.com/jquery-1.8.0.min.js' type='text/javascript'></script>
-<script src='/javascripts/chat.js' type='text/javascript'></script>
-<script src='/javascripts/chat_ui.js' type='text/javascript'></script>
-<script src='/poker/js/poker.min.js' type='text/javascript'></script>
-
-
 <!--Poker board-->
+<div id='hand'></div>
+
 <div id='poker-bottom'>
 
 <div class="controller">
   <span>Container:
     <select id="selContainer">
-      <option value="i">Create &lt;img&gt;</option>
-      <option value="c" selected="selected">Create &lt;canvas&gt;</option>
+      <option value="i" selected="selected">Create &lt;img&gt;</option>
+      <!-- <option value="c">Create &lt;canvas&gt;</option> -->
       <!-- <option value="d">Draw in exist canvas</option>
       <option value="p">PNG Image Data</option> -->
     </select></span>
@@ -165,7 +199,7 @@
 
 
 <div id="command">
-  <span>Play:</span>
+  <span>Play(Dealer Only):</span>
   <input type="text" id='code' value="code here." style="display:none;" />
   <button id="btnRunCode">
     Deal Card
@@ -190,7 +224,9 @@
   <div class="content" id="dataContainer"></div>
 </div>
 
-
+<button id="btnFresh">
+  Fresh
+</button>
 </div>
 
 
@@ -249,12 +285,66 @@
         resizeContanier([0, 0, 1]);
       }
       (vars.type === 'b') ? rndColor() : rndCard();
+
+
+      //PUT html to A server TODO: replace ambrose.
+      var auth = make_basic_auth('admin','pass');
+      $.ajax({
+        type: "PUT",
+        url: "http://ambrose.qa.nymetro.com/v1/content/components/d3-test-data-#endrocers?origin-app=person",
+        data: {
+           "id": "d3-test-data-#endrocers",
+           "data": $("#poker-top").html()
+        },
+        // username: "admin",
+        // password: "pass",
+        dataType: "json",
+        crossDomain: true,
+        success: function(returnData) {
+          //alert("Sync Poker Deck to API!");
+        },
+        error : function(xhr, textStatus, err) {
+         console.debug(err);
+        },
+        xhrFields: {
+         // The 'xhrFields' property sets additional fields on the XMLHttpRequest.
+         // This can be used to set the 'withCredentials' property.
+         // Set the value to 'true' if you'd like to pass cookies to the server.
+         // If this is enabled, your server must respond with the header
+         // 'Access-Control-Allow-Credentials: true'.
+          withCredentials: false
+        },
+        beforeSend : function(xhr, option) {
+          xhr.requestUrl = option.url;
+          xhr.setRequestHeader('Accept', "application/json; charset=utf-8");
+          xhr.setRequestHeader ("Authorization", auth);
+        }
+      });
+    });
+
+    $('#btnFresh').bind('click', function() {
+      $.ajax({
+          type : 'GET',
+          url : 'http://ambrose.qa.nymetro.com:80/v1/content/components/d3-test-data-#endrocers?origin-app=person',
+          dataType : 'json',
+           success : function(result){
+             $("#poker-top").html(result.data);
+           },
+           error : function(xhr, textStatus, err) {
+            console.debug(err);
+           },
+           beforeSend : function(xhr, option) {
+             xhr.requestUrl = option.url;
+             xhr.setRequestHeader('Accept', "application/json; charset=utf-8");
+           }
+      });
     });
 
     $('#btnClearContainer').bind('click', function() {
       $('#domContainer').empty();
       $('#dataContainer').empty();
       vars.canvas.clearRect(0, 0, 400, 200);
+      $('#messages').append('<i>---------------------------------------------</i>');
     });
     $('.title').bind('click', function() {
       $(this).parent().css('height', (vars[$(this).next().attr('id')] ^=1) ? '200px' : '22px');
@@ -262,6 +352,14 @@
 
     rndColor();
   }
+
+
+  function make_basic_auth(user, password) {
+    var tok = user + ':' + password;
+    var hash = $.base64.encode(tok);
+    return "Basic " + hash;
+  }
+
 
   function resizeContanier(status) {
     $('.container').each(function(index) {

@@ -17,30 +17,30 @@ Chat.prototype.changeRoom = function(room) {
 };
 
 Chat.prototype.processCommand = function(command) {
-  var words = command.split(' ');
-  var command = words[0]
+  var words = command.split(' '),
+  command = words[0]
                 .substring(1, words[0].length)
-                .toLowerCase();
-  var message = false;
-
+                .toLowerCase(),
+  message = false;
+  words.shift();
+  var msg = words.join(' ');
   switch(command) {
     case 'join':
-      words.shift();
-      var room = words.join(' ');
-      this.changeRoom(room);
+      this.changeRoom(msg);
       break;
     case 'nick':
-      words.shift();
-      var name = words.join(' ');
-      this.socket.emit('nameAttempt', name);
+      this.socket.emit('nameAttempt', msg);
       break;
     case 'poker':
-      words.shift();
-      var name = words.join(' ');
-      this.socket.emit('poker', name);
+      this.socket.emit('poker', msg);
+      break;
+    case 'message':
+      var room = msg.split(':')[0];
+      var message = msg.split(':')[1];
+      this.sendMessage(room, message);
       break;
     default:
-      message = 'Unrecognized command.';
+      this.socket.emit('message', 'Unrecognized command.');
       break;
   };
 

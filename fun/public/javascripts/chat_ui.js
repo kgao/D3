@@ -8,7 +8,7 @@ function divSystemContentElement(message) {
 
 function divPrivateContentElement(id, name) {
   //TODO: use CODE to validate the start hands for each player after game.
-  return $('<div id='+ id +'></div>').text('Code: '+ id.substring(0, 5) +' Player: '+ name + '<br/> Start Hands: [ '+ randomCard(2)+' ]');
+  return $('<div id='+ id +' style="background:#CCFF99"></div>').text('Code: '+ id.substring(0, 5) +' Player: '+ name + ' Start Hands: [ '+ randomCard(2)+' ]');
 }
 
 function randomCard(numToExtract) {
@@ -79,18 +79,32 @@ $(document).ready(function() {
     $('#messages').append(newElement);
   });
 
-  socket.on('pokerResult', function (result) {
+
+  socket.on('pokerHand', function (result) {
+    var message;
+    if (result.success) {
+    message = result.text;
+    // TODO Poker Mode
+    $('#poker-top').show();
+    $('#poker-bottom').show();
+    //Meanwhile: Open your own deck based on your username(socketID) for 2 dealed cards.
+    $('#hand').html(divPrivateContentElement(result.id,result.name));
+    } else {
+      message = 'Fail to start poker hand.';
+    }
+    $('#messages').append(divSystemContentElement(message));
+  });
+
+
+  socket.on('pokerStart', function (result) {
     var message;
 
     if (result.success) {
-      message = 'Player '+ result.name +' is now in game with $' + result.buyin + ' buy-in.';
-      //TODO Poker Mode
+      message = result.text;
       $('#poker-top').show();
       $('#poker-bottom').show();
-      //Meanwhile: Open your own deck based on your username(socketID) for 2 dealed cards.
-      $('#poker-bottom').append(divPrivateContentElement(result.id,result.name));
     } else {
-      message = result.message;
+      message = 'Fail to start poker.';
     }
     $('#messages').append(divSystemContentElement(message));
   });

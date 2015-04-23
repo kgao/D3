@@ -41,17 +41,22 @@ function serveStatic(response, cache, absPath) {
 
 var server = http.createServer(function(request, response) {
   var filePath = false;
-
-  if (request.url == '/play') {
-    filePath = 'public/index.html';
-  } else if(request.url == '/report/'){
-    filePath = 'public/report/index.html';
-  }else if(request.url == '/poker/'){
-    filePath = 'public/poker/html/poker.html';
-  }else {
-    filePath = 'public' + request.url;
+  if(request.method === "GET") {
+    if (request.url == '/play') {
+      filePath = 'public/index.html';
+    } else if(request.url == '/report/'){
+      filePath = 'public/report/index.html';
+    }else if(request.url == '/poker/'){
+      filePath = 'public/poker/html/poker.html';
+    }else {
+      filePath = 'public' + request.url;
+    }
+  }else if(request.method === "POST") {
+    if (request.url === "/play"){
+      //TODO update deck html globally. Need body-parser in express.
+      //console.log(request)
+    }
   }
-
   var absPath = './' + filePath;
   serveStatic(response, cache, absPath);
 });

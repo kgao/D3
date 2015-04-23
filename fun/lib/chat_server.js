@@ -14,6 +14,7 @@ exports.listen = function(server) {
     handleMessageBroadcasting(socket, nickNames);
     handleNameChangeAttempts(socket, nickNames, namesUsed);
     handleRoomJoining(socket);
+    handlePokerRoom(socket);
     socket.on('rooms', function() {
       socket.emit('rooms', io.sockets.manager.rooms);
     });
@@ -90,9 +91,11 @@ function handleNameChangeAttempts(socket, nickNames, namesUsed) {
 
 function handleMessageBroadcasting(socket) {
   socket.on('message', function (message) {
+    //global msg
     socket.broadcast.to(message.room).emit('message', {
       text: nickNames[socket.id] + ': ' + message.text
     });
+
   });
 }
 
@@ -111,14 +114,20 @@ function handleClientDisconnection(socket) {
   });
 }
 
-function handleMessageBroadcasting(socket) {
+function handlePokerRoom(socket) {
   socket.on('poker', function (buyin) {
     // TODO: buyin validation
-    socket.emit('pokerResult', {
+    socket.emit('pokerHand', {
       success: true,
       id: socket.id,
       name: nickNames[socket.id],
-      buyin: buyin
+      text: 'You are now in game with $' + buyin + ' buy-in.'
     });
+
+    socket.broadcast.to(currentRoom[socket.id]).emit('pokerStart', {
+      success: true,
+      text: 'Player '+ nickNames[socket.id] +' is now in game with $' + buyin + ' buy-in.'
+    });
+
   });
 }
