@@ -388,6 +388,8 @@
 
   //GET html AUTOMATICALLY from A server TODO: replace ambrose.
   setInterval(function(){
+    $("#messages").scrollTop($("#messages")[0].scrollHeight);
+
     $.ajax({
         type : 'GET',
         url : 'http://ambrose.qa.nymetro.com:80/v1/content/components/d3-test-data-#endrocers?origin-app=person',
