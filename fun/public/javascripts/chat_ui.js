@@ -34,6 +34,13 @@ var socket = io.connect();
 $(document).ready(function() {
   var chatApp = new Chat(socket);
 
+  var chatWindow = $('#messages');
+
+  function writeLine(line) {
+    chatWindow.append(line);
+    chatWindow.scrollTop(chatWindow.prop('scrollHeight'));
+  }
+
   socket.on('nameResult', function(result) {
     var message;
 
@@ -42,17 +49,17 @@ $(document).ready(function() {
     } else {
       message = result.message;
     }
-    $('#messages').append(divSystemContentElement(message));
+    writeLine(divSystemContentElement(message));
   });
 
   socket.on('joinResult', function(result) {
     $('#room').text(result.room);
-    $('#messages').append(divSystemContentElement('Room changed.'));
+    writeLine(divSystemContentElement('Room changed.'));
   });
 
   socket.on('message', function (message) {
     var newElement = $('<div></div>').text(message.text);
-    $('#messages').append(newElement);
+    writeLine(newElement);
   });
 
 
@@ -68,7 +75,7 @@ $(document).ready(function() {
     } else {
       message = 'Fail to start poker hand.';
     }
-    $('#messages').append(divSystemContentElement(message));
+    writeLine(divSystemContentElement(message));
   });
 
 
@@ -81,7 +88,7 @@ $(document).ready(function() {
     } else {
       message = 'Fail to start poker.';
     }
-    $('#messages').append(divSystemContentElement(message));
+    writeLine(divSystemContentElement(message));
   });
 
 
@@ -93,7 +100,7 @@ $(document).ready(function() {
     } else {
       message = 'Fail to get player bet.';
     }
-    $('#messages').append(divSystemContentElement(message));
+    writeLine(divSystemContentElement(message));
   });
 
   socket.on('pokerCard', function (result) {
@@ -104,7 +111,7 @@ $(document).ready(function() {
     } else {
       message = 'Fail to get player bet.';
     }
-    $('#messages').append(divSystemContentElement(message));
+    writeLine(divSystemContentElement(message));
   });
 
   socket.on('rooms', function(rooms) {
@@ -113,7 +120,7 @@ $(document).ready(function() {
     for(var room in rooms) {
       room = room.substring(1, room.length);
       if (room != '') {
-        $('#room-list').append(divEscapedContentElement(room));
+        writeLine(divEscapedContentElement(room));
       }
     }
 
