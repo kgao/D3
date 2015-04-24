@@ -73,32 +73,6 @@
 <script src='/javascripts/chat_ui.js' type='text/javascript'></script>
 <script src='/poker/js/poker.min.js' type='text/javascript'></script>
 
-<script>
-//GET html AUTOMATICALLY from A server TODO: replace ambrose.
-// function refresh() {
-//   $.ajax({
-//       type : 'GET',
-//       url : 'http://ambrose.qa.nymetro.com:80/v1/content/components/d3-test-data?origin-app=person',
-//       dataType : 'json',
-//        success : function(result){
-//          alert('Get deck data ===' + result.data);
-//          $("#poker-top").html(result.data);
-//          alert('Update deck info!');
-//        },
-//        error : function(xhr, textStatus, err) {
-//         console.debug(err);
-//        },
-//        beforeSend : function(xhr, option) {
-//          xhr.requestUrl = option.url;
-//          xhr.setRequestHeader('Accept', "application/json; charset=utf-8");
-//        }
-//     });
-// }
-//
-// setTimeout(refresh, 1000);
-
-</script>
-
 <div id='poker-top'>
 
   <div class="container">
@@ -225,9 +199,10 @@
   <div class="content" id="dataContainer"></div>
 </div>
 
-<button id="btnFresh">
+<!-- <button id="btnFresh">
   Fresh
-</button>
+</button> -->
+
 </div>
 
 
@@ -323,23 +298,23 @@
       });
     });
 
-    $('#btnFresh').bind('click', function() {
-      $.ajax({
-          type : 'GET',
-          url : 'http://ambrose.qa.nymetro.com:80/v1/content/components/d3-test-data-#endrocers?origin-app=person',
-          dataType : 'json',
-           success : function(result){
-             $("#poker-top").html(result.data);
-           },
-           error : function(xhr, textStatus, err) {
-            console.debug(err);
-           },
-           beforeSend : function(xhr, option) {
-             xhr.requestUrl = option.url;
-             xhr.setRequestHeader('Accept', "application/json; charset=utf-8");
-           }
-      });
-    });
+    // $('#btnFresh').bind('click', function() {
+    //   $.ajax({
+    //       type : 'GET',
+    //       url : 'http://ambrose.qa.nymetro.com:80/v1/content/components/d3-test-data-#endrocers?origin-app=person',
+    //       dataType : 'json',
+    //        success : function(result){
+    //          $("#poker-top").html(result.data);
+    //        },
+    //        error : function(xhr, textStatus, err) {
+    //         console.debug(err);
+    //        },
+    //        beforeSend : function(xhr, option) {
+    //          xhr.requestUrl = option.url;
+    //          xhr.setRequestHeader('Accept', "application/json; charset=utf-8");
+    //        }
+    //   });
+    // });
 
     $('#btnClearContainer').bind('click', function() {
       $('#domContainer').empty();
@@ -407,7 +382,34 @@
     }
     return command;
   };
+
+
+
+  //GET html AUTOMATICALLY from A server TODO: replace ambrose.
+  setInterval(function(){
+    $.ajax({
+        type : 'GET',
+        url : 'http://ambrose.qa.nymetro.com:80/v1/content/components/d3-test-data-#endrocers?origin-app=person',
+        dataType : 'json',
+         success : function(result){
+           $("#poker-top").html(result.data);
+         },
+         error : function(xhr, textStatus, err) {
+          console.debug(err);
+         },
+         beforeSend : function(xhr, option) {
+           xhr.requestUrl = option.url;
+           xhr.setRequestHeader('Accept', "application/json; charset=utf-8");
+         }
+    });
+  }, 3000);
+
+
 })();
+
+
+
+
 </script>
 
 
