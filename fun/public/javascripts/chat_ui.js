@@ -96,7 +96,7 @@ $(document).ready(function() {
     $('#messages').append(divSystemContentElement(message));
   });
 
-  socket.on('pokerHand', function (result) {
+  socket.on('pokerCard', function (result) {
     var message;
 
     if (result.success) {

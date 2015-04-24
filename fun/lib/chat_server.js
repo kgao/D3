@@ -144,14 +144,14 @@ function handlePokerRoom(socket) {
 function handlePokerHand(socket) {
 
   socket.on('show', function () {
-    socket.emit('pokerHand', {
+    socket.emit('pokerCard', {
       success: true,
       id: socket.id,
       name: nickNames[socket.id],
       text: 'You hands: ' + hands[nickNames[socket.id]] + '.'
     });
 
-    socket.broadcast.to(currentRoom[socket.id]).emit('pokerHand', {
+    socket.broadcast.to(currentRoom[socket.id]).emit('pokerCard', {
       success: true,
       text: nickNames[socket.id] +' show hands: ' + hands[nickNames[socket.id]] + '.'
     });
