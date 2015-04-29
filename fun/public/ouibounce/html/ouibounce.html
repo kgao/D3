@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+
+<head>
+<title>This is Kev's Demo World</title>
+<basefont size=4>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="../js/ouibounce.min.js"></script>
+
+
+</head>
+
+<body bgcolor=FFFFFF >
+<!--
+<h1 align=center>Test Exit Intent Detection</h1>
+<p align=center><img alt="Wall-E" style="width: 500px; height: 200px;" src="http://img2.wikia.nocookie.net/__cb20150214192229/disney/images/1/1e/Wall-e_and_Cockroach.jpg"></p>
+<p align=center>Plz dont leave me!</p>
+<p align=center><a href=https://www.npmjs.com/package/ouibounce>Click here for more -> npm ouibounce</a></p>
+-->
+<div id="background" style="width:100%;height:2000px;"><iframe src="http://nymag.com" style="width:100%;height:100%;"></iframe></div>
+
+
+<!-- Example page Div -->
+
+<div id="ei-modal" style="display: none; text-align: center; top:33%; left:33%; position:fixed; ">
+<iframe src="ei-modal.html" style="width: 700px; height: 500px;"></iframe>
+<a href="javascript: window.close();">
+<img src="https://cdn3.iconfinder.com/data/icons/eldorado-stroke-player/40/button_delete_1-512.png"
+style="padding-bottom: 490px; width: 50px; margin-left: -5px;"/>
+</a>
+</div>
+
+<!-- Use ouibounce JS to fire the modal -->
+<script>
+  // Use pure dom: prepare ei-modal  - ref http://www.html5rocks.com/en/tutorials/webcomponents/imports/
+  // var link = document.querySelector('link[rel="import"]');
+  // var content = link.import;
+  // // Clone the <template> in the import.
+  // var template = content.querySelector('template');
+  // var clone = document.importNode(template.content, true);
+  // document.querySelector('#ei-modal').appendChild(clone);
+  ////TODO: rewrite: http://api.jquery.com/jquery.parsehtml/ in dom.
+
+  var _ouibounce = ouibounce(document.getElementById('ei-modal'), {
+    aggressive: true,
+    sensitivity: 40,
+    timer: 0,
+    delay: 100,
+    callback: function() {
+      //alert('Leaving?');
+      //console.log('Exit Intent fired!');
+    }
+  });
+
+  $('body').on('click', function() {
+    $('#ei-modal').hide();
+    $('#ei-modal').css("display","none");
+    $('#ei-modal').css("position","");
+  });
+
+  $('#ei-modal').on('click', function() {
+    $('#ei-modal').hide();
+    $('#ei-modal').css("display","none");
+    $('#ei-modal').css("position","");
+  });
+
+  $('#ei-modal').on('click', function(e) {
+    e.stopPropagation();
+  });
+
+  </script>
+
+
+</body>
+
+
+</html>

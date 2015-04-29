@@ -42,11 +42,15 @@ function serveStatic(response, cache, absPath) {
 var server = http.createServer(function(request, response) {
   var filePath = false;
   if(request.method === "GET") {
-    if (request.url == '/play') {
-      filePath = 'public/index.html';
-    } else if(request.url == '/report/'){
+    if (request.url == '/') {
+    filePath = 'public/index.html';
+    }else if (request.url == '/chat') {
+      filePath = 'public/chat.html';
+    }else if (request.url == '/exit') {
+      filePath = 'public/ouibounce/html/ouibounce.html';
+    }else if(request.url == '/report'){
       filePath = 'public/report/index.html';
-    }else if(request.url == '/poker/'){
+    }else if(request.url == '/poker'){
       filePath = 'public/poker/html/poker.html';
     }else {
       filePath = 'public' + request.url;
