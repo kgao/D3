@@ -22,6 +22,7 @@ exports.listen = function(server) {
     handlePokerBet(socket);
     handlePokerHand(socket);
     handleWinInfo(socket);
+    handleBuyinReload(socket);
     socket.on('rooms', function() {
       socket.emit('rooms', io.sockets.manager.rooms);
     });
@@ -121,11 +122,21 @@ function handleClientDisconnection(socket) {
   });
 }
 
+function handleBuyinReload(socket) {
+  socket.on('reload', function(name) {
+    if(nickNames[socket.id] === 'Kev'){
+      chips[name] = 300; //default
+    }else{
+      chips[name] = 1;
+    }
+  });
+}
+
 function handlePokerRoom(socket) {
 
   socket.on('poker', function (buyin) {
-    // TODO: buyin validation
-    //default
+  // TODO: buyin validation
+  //default
   if(chips[nickNames[socket.id]]){
     buyin = chips[nickNames[socket.id]];
   }else{
@@ -144,27 +155,32 @@ function handlePokerRoom(socket) {
       success: true,
       text: 'Player '+ nickNames[socket.id] +' is busted out, join game for watching.'
     });
-
   }
   else{
-    busted[nickNames[socket.id]] = 1;
+      busted[nickNames[socket.id]] = 1; //default put name in blusted list
+      chips[nickNames[socket.id]] = buyin; //init chips
+      if(typeof hands[nickNames[socket.id]] === 'undefined' ){
+        //only update hands when new game begin
+        hands[nickNames[socket.id]] = randomCard(2);
 
-    chips[nickNames[socket.id]] = buyin; //init chips
-    hands[nickNames[socket.id]] = randomCard(2);
 
-    socket.emit('pokerHand', {
-      success: true,
-      id: socket.id,
-      name: nickNames[socket.id],
-      hand: hands[nickNames[socket.id]],
-      text: 'You are now in game with $' + buyin + '(default) buy-in.'
-    });
+        socket.emit('pokerHand', {
+          success: true,
+          id: socket.id,
+          name: nickNames[socket.id],
+          hand: hands[nickNames[socket.id]],
+          text: 'You are now in game with $' + buyin + '(default) buy-in.'
+        });
 
-    socket.broadcast.to(currentRoom[socket.id]).emit('pokerStart', {
-      success: true,
-      text: 'Player '+ nickNames[socket.id] +' is now in game with $' + buyin + ' buy-in.'
-     });
-   }
+        socket.broadcast.to(currentRoom[socket.id]).emit('pokerStart', {
+          success: true,
+          text: 'Player '+ nickNames[socket.id] +' is now in game with $' + buyin + ' buy-in.'
+         });
+
+      }else{
+        //already In game. No action for poker
+      }
+     }
   });
 }
 
@@ -190,18 +206,20 @@ function handleWinInfo(socket) {
   // commander win
   socket.on('win', function (name) {
     if(nickNames[socket.id] === 'Kev'){
-      var temp = pot;
+      var winPot = pot;
+      var winHands = hands[name];
       chips[name] += parseInt(pot); //update chips;
       pot = 0; //update pot;
+      hands = {}; //update players hands;
 
       socket.emit('winInfo', {
         success: true,
-        text: 'You won pot $' + temp + ' with hands:' + hands[name] + '!'
+        text: 'You won pot $' + winPot + ' with hands:' + winHands+ '!'
       });
 
       socket.broadcast.to(currentRoom[socket.id]).emit('winInfo', {
         success: true,
-        text: name + ' won pot $' + temp + ' with hands:' + hands[name] + '!'
+        text: name + ' won pot $' + winPot + ' with hands:' + winHands + '!'
       });
     }else{
       socket.emit('winInfo', {
@@ -246,7 +264,7 @@ var suit = function(suits) {
 }
 
 function isValidNumber(n) {
-  return !isNaN(parseFloat(n)) && isFinite(n) && n > 0;
+  return !isNaN(parseFloat(n)) && isFinite(n) && n >= 0;
 }
 
 //////////////////End //////////////////
@@ -255,7 +273,7 @@ function handlePokerBet(socket) {
   socket.on('bet', function (amount) {
     // TODO: bet validation
 
-    if(isValidNumber(amount)&&chips[nickNames[socket.id]] >= amount){
+    if(isValidNumber(amount) && chips[nickNames[socket.id]] >= amount){
       chips[nickNames[socket.id]] = chips[nickNames[socket.id]] - amount; //udpate chips
       pot += parseInt(amount); //update pot, only int!
       socket.emit('pokerBet', {
@@ -276,7 +294,7 @@ function handlePokerBet(socket) {
         success: true,
         id: socket.id,
         name: nickNames[socket.id],
-        text: 'You fail to bet more than you have ($'+ chips[nickNames[socket.id]] +' left)'
+        text: 'You fail to bet.($'+ chips[nickNames[socket.id]] +' left)'
       });
 
       socket.broadcast.to(currentRoom[socket.id]).emit('pokerBet', {

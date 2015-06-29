@@ -43,6 +43,9 @@ Chat.prototype.processCommand = function(command) {
     case 'win': //admin command
         this.socket.emit('win', msg);
         break;
+    case 'reload': //admin command
+        this.socket.emit('reload', msg);
+        break;
     case 'message':
       var room = msg.split(':')[0];
       var message = msg.split(':')[1];
