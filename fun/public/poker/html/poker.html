@@ -176,6 +176,7 @@
 
 			}
 			if (window.Poker) {
+				var dealt = [];
 				$('select').bind('change', function() {
 					vars[$(this).attr('id').replace(/^sel/, '').toLowerCase()] = $(this).val();
 					$('#code').val(genCode());
@@ -189,7 +190,7 @@
 					rndColor();
 				});
 				$('#btnRndCard').bind('click', function() {
-					rndCard();
+					rndCard(dealt);
 				});
 				$('#domContainer img,#domContainer canvas').live('click', function() {
 					$(this).css({
@@ -212,10 +213,11 @@
 						$('#dataContainer').html(window.domTemp);
 						resizeContanier([0, 0, 1]);
 					}
-					(vars.type === 'b') ? rndColor() : rndCard();
+					(vars.type === 'b') ? rndColor() : rndCard(dealt);
 				});
 
 				$('#btnClearContainer').bind('click', function() {
+					dealt = [];
 					$('#domContainer').empty();
 					$('#dataContainer').empty();
 					vars.canvas.clearRect(0, 0, 800, 500);
@@ -247,13 +249,22 @@
 				$('#code').val(genCode());
 			}
 
-			function rndCard() {
-				var size = [40, 52, 60, 72, 80, 92, 100, 120, 152, 200, 252, 300, 400, 500], suit = ['h', 'd', 's', 'c'], point = ['a', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'JOKER'];
-				vars.size = $('#selSize').val(size[Math.random() * 14 | 0]).val();
-				vars.suit = $('#selSuit').val(suit[Math.random() * 4 | 0]).val();
-				vars.point = $('#selPoint').val( aa = point[Math.random() * 14 | 0]).val();
-				$('#code').val(genCode());
-			}
+			function rndCard(dealt) {
+		    var size = [40, 52, 60, 72, 80, 92, 100, 120, 152, 200, 252, 300, 400, 500], suit = ['h', 'd', 's', 'c'], point = ['a', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'JOKER'];
+		    vars.size = $('#selSize').val(size[Math.random() * 14 | 0]).val();
+		    vars.suit = $('#selSuit').val(suit[Math.random() * 4 | 0]).val();
+		    vars.point = $('#selPoint').val( aa = point[Math.random() * 14 | 0]).val();
+		    var code = genCode();
+		    while(dealt.indexOf(code) !== -1){
+		      size = [40, 52, 60, 72, 80, 92, 100, 120, 152, 200, 252, 300, 400, 500], suit = ['h', 'd', 's', 'c'], point = ['a', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'JOKER'];
+		      vars.size = $('#selSize').val(size[Math.random() * 14 | 0]).val();
+		      vars.suit = $('#selSuit').val(suit[Math.random() * 4 | 0]).val();
+		      vars.point = $('#selPoint').val( aa = point[Math.random() * 14 | 0]).val();
+		      code = genCode();
+		    }
+		    dealt.push(code);
+		    $('#code').val(code);
+		  }
 
 			function genCode() {
 				var command = '';
