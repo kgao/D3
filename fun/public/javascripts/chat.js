@@ -40,6 +40,9 @@ Chat.prototype.processCommand = function(command) {
     case 'show':
         this.socket.emit('show', msg);
         break;
+    case 'win': //admin command
+        this.socket.emit('win', msg);
+        break;
     case 'message':
       var room = msg.split(':')[0];
       var message = msg.split(':')[1];

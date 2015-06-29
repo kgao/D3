@@ -112,6 +112,17 @@ $(document).ready(function() {
     $('#messages').append(divSystemContentElement(message));
   });
 
+  socket.on('winInfo', function (result) {
+    var message;
+
+    if (result.success) {
+      message = result.text;
+    } else {
+      message = 'Fail to get win info.';
+    }
+    $('#messages').append(divSystemContentElement(message));
+  });
+
   socket.on('rooms', function(rooms) {
     $('#room-list').empty();
 
