@@ -245,12 +245,17 @@ var suit = function(suits) {
   return suits[Math.floor(card % 3)];
 }
 
+function isValidNumber(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n) && n > 0;
+}
+
 //////////////////End //////////////////
 
 function handlePokerBet(socket) {
   socket.on('bet', function (amount) {
     // TODO: bet validation
-    if(chips[nickNames[socket.id]] >= amount){
+
+    if(isValidNumber(amount)&&chips[nickNames[socket.id]] >= amount){
       chips[nickNames[socket.id]] = chips[nickNames[socket.id]] - amount; //udpate chips
       pot += parseInt(amount); //update pot, only int!
       socket.emit('pokerBet', {
