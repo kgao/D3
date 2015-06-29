@@ -255,12 +255,14 @@
 		    vars.suit = $('#selSuit').val(suit[Math.random() * 4 | 0]).val();
 		    vars.point = $('#selPoint').val( aa = point[Math.random() * 14 | 0]).val();
 		    var code = genCode();
-		    while(dealt.indexOf(code) !== -1){
+				var count = 52; //Kill Overflow - Dead loop
+		    while(count > 0 && dealt.indexOf(code) !== -1){
 		      size = [40, 52, 60, 72, 80, 92, 100, 120, 152, 200, 252, 300, 400, 500], suit = ['h', 'd', 's', 'c'], point = ['a', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'JOKER'];
 		      vars.size = $('#selSize').val(size[Math.random() * 14 | 0]).val();
 		      vars.suit = $('#selSuit').val(suit[Math.random() * 4 | 0]).val();
 		      vars.point = $('#selPoint').val( aa = point[Math.random() * 14 | 0]).val();
 		      code = genCode();
+					count --;
 		    }
 		    dealt.push(code);
 		    $('#code').val(code);
