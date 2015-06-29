@@ -3,7 +3,7 @@ D3
 ####D3.js  /report
 ####Chat Room   /chat
 ####Poker Room   /poker
-####Exit Intent Demo  /Exit
+####Exit Intent Demo  /exit
 
 
 #D3 data visualization /report/index

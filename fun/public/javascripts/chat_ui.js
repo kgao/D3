@@ -62,7 +62,12 @@ $(document).ready(function() {
     message = result.text;
     // TODO Poker Mode
     $('#poker-top').show();
-    $('#poker-bottom').show();
+    //only dealer can show controller
+    if(result.name === 'Kev') {
+      $('#poker-bottom').show();
+    }else{
+      $('#poker-bottom').html('');
+    }
     //Meanwhile: Open your own deck based on your username(socketID) for 2 dealed cards.
     $('#hand').html(divPrivateContentElement(result.id,result.name,result.hand));
     } else {

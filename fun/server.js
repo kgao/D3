@@ -44,13 +44,13 @@ var server = http.createServer(function(request, response) {
   if(request.method === "GET") {
     if (request.url == '/') {
     filePath = 'public/index.html';
-    }else if (request.url == '/chat') {
+    }else if (request.url == '/chat' || request.url == '/chat/') {
       filePath = 'public/chat.html';
-    }else if (request.url == '/exit') {
+    }else if (request.url == '/exit' || request.url == '/exit/') {
       filePath = 'public/ouibounce/html/ouibounce.html';
-    }else if(request.url == '/report'){
+    }else if(request.url == '/report' || request.url == '/report/'){
       filePath = 'public/report/index.html';
-    }else if(request.url == '/poker'){
+    }else if(request.url == '/poker' || request.url == '/poker/'){
       filePath = 'public/poker/html/poker.html';
     }else {
       filePath = 'public' + request.url;

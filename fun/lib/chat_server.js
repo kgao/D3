@@ -6,6 +6,7 @@ var namesUsed = [];
 var currentRoom = {};
 var chips = {};
 var hands = {};
+var busted = {};
 
 exports.listen = function(server) {
   io = socketio.listen(server);
@@ -122,6 +123,30 @@ function handlePokerRoom(socket) {
 
   socket.on('poker', function (buyin) {
     // TODO: buyin validation
+    //default
+  if(chips[nickNames[socket.id]]){
+    buyin = chips[nickNames[socket.id]];
+  }else{
+    buyin = 300;
+  }
+
+  if(busted[nickNames[socket.id]] && chips[nickNames[socket.id]] === 0){
+    socket.emit('pokerHand', {
+      success: true,
+      id: socket.id,
+      name: nickNames[socket.id],
+      hand: hands[nickNames[socket.id]],
+      text: 'Sorry You are busted out, please wait next game.'
+    });
+    socket.broadcast.to(currentRoom[socket.id]).emit('pokerStart', {
+      success: true,
+      text: 'Player '+ nickNames[socket.id] +' is busted out, join game for watching.'
+    });
+
+  }
+  else{
+    busted[nickNames[socket.id]] = 1;
+
     chips[nickNames[socket.id]] = buyin; //init chips
     hands[nickNames[socket.id]] = randomCard(2);
 
@@ -130,13 +155,14 @@ function handlePokerRoom(socket) {
       id: socket.id,
       name: nickNames[socket.id],
       hand: hands[nickNames[socket.id]],
-      text: 'You are now in game with $' + buyin + ' buy-in.'
+      text: 'You are now in game with $' + buyin + '(default) buy-in.'
     });
 
     socket.broadcast.to(currentRoom[socket.id]).emit('pokerStart', {
       success: true,
       text: 'Player '+ nickNames[socket.id] +' is now in game with $' + buyin + ' buy-in.'
-    });
+     });
+   }
   });
 }
 
@@ -189,7 +215,7 @@ var suit = function(suits) {
 function handlePokerBet(socket) {
   socket.on('bet', function (amount) {
     // TODO: bet validation
-    if(chips[nickNames[socket.id]] > amount){
+    if(chips[nickNames[socket.id]] >= amount){
       chips[nickNames[socket.id]] = chips[nickNames[socket.id]] - amount; //udpate chips
       socket.emit('pokerBet', {
         success: true,
@@ -204,12 +230,12 @@ function handlePokerBet(socket) {
       });
     }else{
       //fail to bet
-      chips[nickNames[socket.id]] = chips[nickNames[socket.id]] - amount; //udpate chips
+      // chips[nickNames[socket.id]] = chips[nickNames[socket.id]] - amount; //no chips udpate
       socket.emit('pokerBet', {
         success: true,
         id: socket.id,
         name: nickNames[socket.id],
-        text: 'You fail to bet $' + amount +'.($'+ chips[nickNames[socket.id]] +' left)'
+        text: 'You fail to bet more than you have ($'+ chips[nickNames[socket.id]] +' left)'
       });
 
       socket.broadcast.to(currentRoom[socket.id]).emit('pokerBet', {
