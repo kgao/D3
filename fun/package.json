@@ -5,9 +5,10 @@
   "dependencies": {
     "socket.io": "~0.9.6",
     "mime": "~1.2.7",
-    "ouibounce": "0.0.11"
+    "ouibounce": "0.0.11",
+    "fingerprintjs2": "0.5.1"
   },
   "scripts": {
-     "start": "node app"
+     "start": "node server"
   }
 }

@@ -1,0 +1,104 @@
+<!doctype html>
+<html>
+
+<head>
+<title>This is Kev's Demo World</title>
+<basefont size=4>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-42202458-2', 'auto');
+  ga('send', 'pageview');
+</script>
+<style>
+  body{
+    font-family: sans-serif;
+    max-width: 48em;
+    margin: auto;
+    padding: 0 5%;
+    background: #222;
+    color: #fff;
+  }
+
+  h1 {
+    margin: 2em 0 0;
+  }
+
+  p {
+    font-size: 1.2em
+  }
+
+  button {
+    border: none;
+    color: #fff;
+    font-size: 1.2em;
+    background: #27e;
+    padding: 0.5em 0.75em 0.6em;
+    border-radius: 3px;
+    box-shadow: 0 3px 0 #05c;
+    outline: none;
+  }
+
+  button:active {
+    transform: translateY(3px);
+    box-shadow: none;
+  }
+
+  strong {
+    display: block;
+    letter-spacing: 1px;
+    word-wrap: break-word;
+  }
+
+  @media (min-width: 32em) {
+    h1 {
+      font-size: 4em;
+    }
+
+    strong {
+      font-size: 1.5em;
+    }
+  }
+</style>
+
+</head>
+
+<body>
+  <div id="container"></div>
+
+
+  <h1>Fingerprintjs2 Demo</h1>
+
+
+  <p><code id="time"/></p>
+  <p>Your browser fingerprint: <strong id="fp"></strong></p>
+
+  <button type="button" id="btn">Get my fingerprint</button>
+
+  <script src="../js/fingerprint2.min.js"></script>
+
+  <script>
+    var btn = document.getElementById('btn');
+
+    btn.addEventListener('click', function getFingerPrint() {
+      var d1 = new Date();
+      var fp = new Fingerprint2();
+      fp.get(function(result) {
+        var d2 = new Date();
+        var timeString = "Time took to calculate the fingerprint: " + (d2 - d1) + "ms";
+        console.log(timeString);
+        console.log(result);
+
+        document.getElementById("time").innerHTML = timeString;
+        document.getElementById("fp").innerHTML = result;
+      });
+    });
+  </script>
+</body>
+
+</html>

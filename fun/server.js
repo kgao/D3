@@ -46,6 +46,8 @@ var server = http.createServer(function(request, response) {
     filePath = 'public/index.html';
     }else if (request.url == '/chat' || request.url == '/chat/') {
       filePath = 'public/chat.html';
+    }else if(request.url == '/fp' || request.url == '/fp/') {
+      filePath = 'public/fingerprint/html/fingerprint.html';
     }else if (request.url == '/exit' || request.url == '/exit/') {
       filePath = 'public/ouibounce/html/ouibounce.html';
     }else if(request.url == '/report' || request.url == '/report/'){
