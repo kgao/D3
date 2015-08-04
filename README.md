@@ -1,9 +1,10 @@
 D3
 =====
-####D3.js  /report
-####Chat Room   /chat
-####Poker Room   /poker
-####Exit Intent Demo  /exit
+####D3.js  public/report/index.html
+####Chat Room   public/chat/index.html
+####Poker Room   public/poker/index.html
+####Exit Intent Demo  public/ouibounce/index.html
+####Google Map Demo  public/gmap/index.html
 
 
 #D3 data visualization /report/index
