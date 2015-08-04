@@ -4,9 +4,9 @@
   "description": "Minimalist multiroom chat server",
   "dependencies": {
     "socket.io": "~0.9.6",
-    "mime": "~1.2.7",
     "ouibounce": "0.0.11",
-    "fingerprintjs2": "0.5.1"
+    "fingerprintjs2": "0.5.1",
+    "express":"4.13.3"
   },
   "scripts": {
      "start": "node server"
