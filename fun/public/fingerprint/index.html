@@ -80,14 +80,39 @@
 
   <button type="button" id="btn">Get my fingerprint</button>
 
-  <script src="js/fingerprint2.min.js"></script>
+ <script src="js/fingerprint2.js"></script>
 
   <script>
-    var btn = document.getElementById('btn');
+
+
+  // function sayswho(){
+  //   var d1 = new Date();
+  //
+  //   var ua= navigator.userAgent, tem,
+  //   M= ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
+  //   if(/trident/i.test(M[1])){
+  //       tem=  /\brv[ :]+(\d+)/g.exec(ua) || [];
+  //       return 'IE '+(tem[1] || '');
+  //   }
+  //   if(M[1]=== 'Chrome'){
+  //       tem= ua.match(/\b(OPR|Edge)\/(\d+)/);
+  //       if(tem!= null) return tem.slice(1).join(' ').replace('OPR', 'Opera');
+  //   }
+  //   M= M[2]? [M[1], M[2]]: [navigator.appName, navigator.appVersion, '-?'];
+  //   if((tem= ua.match(/version\/(\d+)/i))!= null) M.splice(1, 1, tem[1]);
+  //
+  //   var d2 = new Date();
+  //   var timeString = "Time took to calculate the fingerprint: " + (d2 - d1) + "ms";
+  //   document.getElementById("time").innerHTML = timeString;
+  //
+  //   return M.join(' ');
+  // }
+
+  //  var btn = document.getElementById('btn');
 
     btn.addEventListener('click', function getFingerPrint() {
       var d1 = new Date();
-      var fp = new Fingerprint2();
+      var fp = new Fingerprint2({excludeJsFonts: true, excludeFlashFonts: true, excludeUserAgent: true, excludeCanvas: true, excludeWebGL: true});
       fp.get(function(result) {
         var d2 = new Date();
         var timeString = "Time took to calculate the fingerprint: " + (d2 - d1) + "ms";
@@ -97,6 +122,17 @@
         document.getElementById("time").innerHTML = timeString;
         document.getElementById("fp").innerHTML = result;
       });
+
+      // txt = "<p>Browser who: " + sayswho() + "</p>";
+      // txt = "<p>Browser CodeName: " + navigator.appCodeName + "</p>";
+      // txt+= "<p>Browser Name: " + navigator.appName + "</p>";
+      // txt+= "<p>Browser Version: " + navigator.appVersion + "</p>";
+      // txt+= "<p>Cookies Enabled: " + navigator.cookieEnabled + "</p>";
+      // txt+= "<p>Platform: " + navigator.platform + "</p>";
+      // txt+= "<p>User-agent header: " + navigator.userAgent + "</p>";
+
+      //document.getElementById("fp").innerHTML=txt;
+
     });
   </script>
 </body>
