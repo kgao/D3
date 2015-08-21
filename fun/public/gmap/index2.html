@@ -71,20 +71,23 @@
   <body>
     <div id="container"></div>
 
+    <h1>Google Map List Demo</h1>
 
-    <h1>Google Map Demo</h1>
+    <p>Your address: <input value="75 Varick St, New York, NY 10013"></input></p>
+    <p>Your address: <input value="23 Grand St, New York, NY 10013"></input></p>
+    <p>Your address: <input value="500 W 50th St, New York, NY 10019"></input></p>
+    <p>Your address: <input value="357 W Broadway, New York, NY 10013"></input></p>
+    <p>Your address: <input value="34 E 2nd St, New York, NY 10003"></input></p>
+    <p>Your address: <input value="123 E 24th St, New York, NY 10010"></input></p>
 
-    <p>Your address: <input id="address" value="75 Varick St, New York, NY 10013"></input></p>
 
-
-    <button type="button" id="btn">Get my address</button>
+    <button type="button" id="btn">Get my addresses</button>
     <p/>
     <div id="test" class="gmap3 middle"></div>
 
 
     <script>
     var btn = document.getElementById('btn');
-
 
     //initial the map
     $('.gmap3').gmap3({
@@ -105,8 +108,11 @@
      });
 
     btn.addEventListener('click', function getAddressMap() {
-       var myAddress = document.getElementById("address").value;
-
+       var addressList = document.getElementsByTagName("INPUT"); //collection not an array.
+       var addressValues = [];
+       [].forEach.call(addressList, function(myAddress){
+         addressValues.push({address:myAddress.value});
+       });
        //show address
        $('#test').gmap3({
          map: {
@@ -115,7 +121,12 @@
            }
          },
          marker:{
-           address: myAddress, // param address
+          //  values:[ //multiple addresses
+          //   {address: myAddress[0].value},
+          //   {address: myAddress[1].value},
+          //   {address: myAddress[2].value},
+          //  ],
+           values: addressValues,
            options: {
              icon: new google.maps.MarkerImage(
                "http://gmap3.net/skin/gmap/magicshow.png",
@@ -126,6 +137,7 @@
        },
        "autofit");
      });
+
     </script>
   </body>
 
