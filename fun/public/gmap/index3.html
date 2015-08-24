@@ -1,150 +1,150 @@
 <!doctype html>
 <html>
 <head>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
-  <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 
-  <title>This is Kev's Demo World</title>
-  <basefont size=4>
-  <style>
-  html, body, #map-canvas  {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-  }
+<title>This is Kev's Demo World</title>
+<basefont size=4>
+<style>
+html, body, #map-canvas  {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
 
-  #map-canvas {
-    width:500px;
-    height:480px;
-  }
+#map-canvas {
+  width:500px;
+  height:480px;
+}
 
-  body{
-    font-family: sans-serif;
-    max-width: 48em;
-    margin: auto;
-    padding: 0 5%;
-    background: #222;
-    color: #fff;
-  }
+body{
+  font-family: sans-serif;
+  max-width: 48em;
+  margin: auto;
+  padding: 0 5%;
+  background: #222;
+  color: #fff;
+}
 
+h1 {
+  margin: 2em 0 0;
+}
+
+p {
+  font-size: 1.2em
+}
+
+button {
+  border: none;
+  color: #fff;
+  font-size: 1.2em;
+  background: #27e;
+  padding: 0.5em 0.75em 0.6em;
+  border-radius: 3px;
+  box-shadow: 0 3px 0 #05c;
+  outline: none;
+}
+
+button:active {
+  transform: translateY(3px);
+  box-shadow: none;
+}
+
+strong {
+  display: block;
+  letter-spacing: 1px;
+  word-wrap: break-word;
+}
+
+@media (min-width: 32em) {
   h1 {
-    margin: 2em 0 0;
-  }
-
-  p {
-    font-size: 1.2em
-  }
-
-  button {
-    border: none;
-    color: #fff;
-    font-size: 1.2em;
-    background: #27e;
-    padding: 0.5em 0.75em 0.6em;
-    border-radius: 3px;
-    box-shadow: 0 3px 0 #05c;
-    outline: none;
-  }
-
-  button:active {
-    transform: translateY(3px);
-    box-shadow: none;
+    font-size: 4em;
   }
 
   strong {
-    display: block;
-    letter-spacing: 1px;
-    word-wrap: break-word;
+    font-size: 1.5em;
   }
-
-  @media (min-width: 32em) {
-    h1 {
-      font-size: 4em;
-    }
-
-    strong {
-      font-size: 1.5em;
-    }
-  }
-  </style>
+}
+</style>
 
 </head>
 
 <body>
 
-<h1 class="">Lazy Load Google Map</h1>
-<a href="#myMapModal" class="btn addr" data-toggle="modal">75 Varick street, New York, NY</a>
-<br>
-<a href="#myMapModal" class="btn addr" data-toggle="modal">620 Eighth Avenue, New York, NY</a>
-<br>
-<a href="#myMapModal" class="btn addr" data-toggle="modal">500 W 50th St, New York, NY 10019</a>
-<br>
-<a href="#myMapModal" class="btn addr" data-toggle="modal">357 W Broadway, New York, NY 10013</a>
-<br>
-<a href="#myMapModal" class="btn addr" data-toggle="modal">34 E 2nd St, New York, NY 10003</a>
-<br>
-<a href="#myMapModal" class="btn addr" data-toggle="modal">123 E 24th St, New York, NY 10010</a>
+  <h1 class="">Lazy Load Google Map</h1>
+  <a href="#myMapModal" class="btn addr" data-toggle="modal">75 Varick street, New York, NY</a>
+  <br>
+  <a href="#myMapModal" class="btn addr" data-toggle="modal">620 Eighth Avenue, New York, NY</a>
+  <br>
+  <a href="#myMapModal" class="btn addr" data-toggle="modal">500 W 50th St, New York, NY 10019</a>
+  <br>
+  <a href="#myMapModal" class="btn addr" data-toggle="modal">357 W Broadway, New York, NY 10013</a>
+  <br>
+  <a href="#myMapModal" class="btn addr" data-toggle="modal">34 E 2nd St, New York, NY 10003</a>
+  <br>
+  <a href="#myMapModal" class="btn addr" data-toggle="modal">123 E 24th St, New York, NY 10010</a>
 
 
-<div class="modal fade" id="myMapModal">
+  <div class="modal fade" id="myMapModal">
     <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                 <h4 class="modal-title">Modal title</h4>
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4 class="modal-title">Modal title</h4>
 
-            </div>
-            <div class="modal-body">
-                <div class="container">
-                    <div class="row">
-                        <div id="map-canvas" class=""></div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
         </div>
-        <!-- /.modal-content -->
+        <div class="modal-body">
+          <div class="container">
+            <div class="row">
+              <div id="map-canvas" class=""></div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+      <!-- /.modal-content -->
     </div>
     <!-- /.modal-dialog -->
-    </div>
-    <!-- /.modal -->
+  </div>
+  <!-- /.modal -->
 
-    <script>
-    var map;
+  <script>
+  var map;
   var marker;
   var myCenter;
 
   var geocoder = new google.maps.Geocoder();
   $('.addr').on('click', function() {
-      var addr = $(this).text();
-      geocoder.geocode({address:addr}, function(results, status) {
-          if (status == google.maps.GeocoderStatus.OK) {
-          	map.setCenter(results[0].geometry.location);
-              var marker = new google.maps.Marker({
-                  map: map,
-                  position: results[0].geometry.location
-              });
-          } else {
-          	alert("Geocode was not successful for the following reason: " + status);
-          }
-      });
+    var addr = $(this).text();
+    geocoder.geocode({address:addr}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        map.setCenter(results[0].geometry.location);
+        var marker = new google.maps.Marker({
+          map: map,
+          position: results[0].geometry.location
+        });
+      } else {
+        alert("Geocode was not successful for the following reason: " + status);
+      }
+    });
   });
 
 
   function initialize() {
     var mapProp = {
-        center:myCenter,
-        zoom: 14,
-        draggable: false,
-        scrollwheel: false,
-        mapTypeId:google.maps.MapTypeId.ROADMAP
+      center:myCenter,
+      zoom: 14,
+      draggable: false,
+      scrollwheel: false,
+      mapTypeId:google.maps.MapTypeId.ROADMAP
     };
 
     map=new google.maps.Map(document.getElementById("map-canvas"),mapProp);
@@ -162,20 +162,20 @@
   google.maps.event.addDomListener(window, "resize", resizingMap);
 
   $('#myMapModal').on('show.bs.modal', function() {
-     //Must wait until the render of the modal appear, thats why we use the resizeMap and NOT resizingMap!! ;-)
-     resizeMap();
+    //Must wait until the render of the modal appear, thats why we use the resizeMap and NOT resizingMap!! ;-)
+    resizeMap();
   })
 
   function resizeMap() {
-     if(typeof map =="undefined") return;
-     setTimeout( function(){resizingMap();} , 400);
+    if(typeof map =="undefined") return;
+    setTimeout( function(){resizingMap();} , 400);
   }
 
   function resizingMap() {
-     if(typeof map =="undefined") return;
-     var center = map.getCenter();
-     google.maps.event.trigger(map, "resize");
-     map.setCenter(center);
+    if(typeof map =="undefined") return;
+    var center = map.getCenter();
+    google.maps.event.trigger(map, "resize");
+    map.setCenter(center);
   }
   </script>
 
