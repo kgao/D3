@@ -1,7 +1,7 @@
 D3
 =====
 Dynamic:
-####Chat Room (with IRC Poker built-in)   public/chat/
+####Chat Room (with IRC Poker built-in)   /chat
 
 Static:
 ####D3.js  public/report/index.html
