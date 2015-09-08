@@ -6,6 +6,7 @@
     "socket.io": "~0.9.6",
     "ouibounce": "0.0.11",
     "fingerprintjs2": "0.5.1",
+    "mime": "~1.2.7",
     "express":"4.13.3"
   },
   "scripts": {
