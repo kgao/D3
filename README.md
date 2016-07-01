@@ -1,14 +1,18 @@
 D3
 =====
+D3 is not only limited to D3.js.
+It's a short for Demo.
+
 Dynamic:
 ####Chat Room (with IRC Poker built-in)   /chat
 
 Static:
-####D3.js  public/report/index.html
-####Chat Room   public/chat/index.html
-####Poker Room   public/poker/index.html
-####Exit Intent Demo  public/ouibounce/index.html
-####Google Map Demo  public/gmap/index.html
+####Magzine Data D3 Demo  /report/index.html
+####Chat Room   /chat.html
+####Poker Room   /poker/index.html
+####Exit Intent Demo  /ouibounce/index.html
+####Google Map Demo  /gmap/index.html
+####Nations Data D3 Demo /d3/nations.html
 
 
 #D3 data visualization /report/index

@@ -83,6 +83,8 @@ var oneDay = 86400000;
 
 server.use(express.static(__dirname + '/public', { maxAge: oneDay }));
 
+//server.use('/', express.static(__dirname + '/public'));
+
 server.listen(process.env.PORT || 3333, function(){
    console.log("Server listening on port 3333.");
 });
